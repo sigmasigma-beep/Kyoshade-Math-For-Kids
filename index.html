@@ -10,10 +10,25 @@
             text-align: center; 
             background: black;
             background-size: cover;
+            border: 10px solid #BF00FF;
+            box-shadow: 0 0 20px #BF00FF;
         }
-        h1 { color: #333; }
-        .game-container { display: flex; flex-wrap: wrap; justify-content: center; }
-        .game-card { width: 200px; margin: 10px; padding: 10px; background: white; border-radius: 10px; box-shadow: 2px 2px 10px rgba(0, 0, 0, 0.1); }
+        h1 { color: #BF00FF; }
+        .game-container { 
+            display: grid; 
+            grid-template-columns: repeat(4, 1fr); 
+            gap: 10px; 
+            justify-content: center; 
+            padding: 20px;
+        }
+        .game-card { 
+            width: 200px; 
+            margin: auto; 
+            padding: 10px; 
+            background: white; 
+            border-radius: 10px; 
+            box-shadow: 2px 2px 10px rgba(0, 0, 0, 0.1); 
+        }
         .game-card img { width: 100%; border-radius: 10px; }
         .game-card a { 
             text-decoration: none; 
@@ -22,29 +37,46 @@
             margin-top: 5px; 
             font-weight: bold;
             padding: 5px;
-            border: 2px solid #39ff14; /* Correct neon green color */
+            border: 2px solid #BF00FF;
             border-radius: 5px;
             transition: 0.3s;
         }
         .game-card a:hover {
-            background: #39ff14;
+            background: #BF00FF;
             color: black;
+        }
+        @media (max-width: 800px) {
+            .game-container {
+                grid-template-columns: repeat(2, 1fr);
+            }
+        }
+        @media (max-width: 500px) {
+            .game-container {
+                grid-template-columns: repeat(1, 1fr);
+            }
         }
     </style>
 </head>
 <body>
     <h1>Kyoshades Games</h1>
     <div class="game-container">
-        <!-- Example game entry -->
         <div class="game-card">
-            <img src="game1-thumbnail.jpg" alt="cell-machine">
-            <a href="games/cell-machine.html" target="_blank">Play cell-machine</a>
+            <img src="game1-thumbnail.jpg" alt="Game 1">
+            <a href="games/game1.html" target="_blank">Play Game 1</a>
         </div>
         <div class="game-card">
             <img src="game2-thumbnail.jpg" alt="Game 2">
             <a href="games/game2.html" target="_blank">Play Game 2</a>
         </div>
-        <!-- Repeat for 50 games -->
+        <div class="game-card">
+            <img src="game1-thumbnail.jpg" alt="Cell Machine">
+            <a href="games/cell-machine.html" target="_blank">Play Cell Machine</a>
+        </div>
+        <div class="game-card">
+            <img src="game3-thumbnail.jpg" alt="Game 3">
+            <a href="games/game3.html" target="_blank">Play Game 3</a>
+        </div>
     </div>
 </body>
 </html>
+
