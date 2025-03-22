@@ -5,6 +5,11 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Kyoshades Games</title>
     <style>
+        /* Apply box-sizing to include borders and padding in element's total width/height */
+        * {
+            box-sizing: border-box;
+        }
+
         body { 
             font-family: Arial, sans-serif; 
             text-align: center; 
@@ -12,31 +17,37 @@
             background-size: cover;
             border: 10px solid #BF00FF;
             box-shadow: 0 0 20px #BF00FF;
+            margin: 0; /* Remove any default margin */
+            padding: 0; /* Remove default padding */
         }
-        h1 { color: #BF00FF; }
+        h1 { 
+            color: #BF00FF; 
+            margin-top: 40px; /* Added more margin for spacing from the top */
+        }
         .game-container { 
             display: grid; 
-            grid-template-columns: repeat(4, 1fr); 
-            gap: 10px; 
+            grid-template-columns: repeat(4, 1fr); /* 4 columns */
+            gap: 10px; /* Gap between the cards */
             justify-content: center; 
             padding: 20px;
+            max-width: 100%; /* Ensure the content doesn't overflow */
+            margin: 0 auto; /* Center the container */
         }
         .game-card { 
-            width: 200px; 
-            margin: auto; 
-            padding: 10px; 
+            width: 100%; 
+            padding: 20px; /* Padding inside each card */
             background: black; 
             border-radius: 10px; 
             box-shadow: 2px 2px 10px rgba(0, 0, 0, 0.1); 
         }
-        .game-card img { width: 100%; border-radius: 10px; }
         .game-card a { 
             text-decoration: none; 
             color: #333; 
             display: block; 
-            margin-top: 5px; 
+            margin-top: 10px; 
             font-weight: bold;
-            padding: 5px;
+            padding: 20px;  /* Button padding */
+            font-size: 20px; /* Font size for the button */
             border: 2px solid #BF00FF;
             border-radius: 5px;
             transition: 0.3s;
@@ -45,14 +56,20 @@
             background: #BF00FF;
             color: black;
         }
+
+        @media (max-width: 1000px) {
+            .game-container {
+                grid-template-columns: repeat(3, 1fr); /* 3 columns on smaller screens */
+            }
+        }
         @media (max-width: 800px) {
             .game-container {
-                grid-template-columns: repeat(2, 1fr);
+                grid-template-columns: repeat(2, 1fr); /* 2 columns on very small screens */
             }
         }
         @media (max-width: 500px) {
             .game-container {
-                grid-template-columns: repeat(1, 1fr);
+                grid-template-columns: 1fr; /* 1 column for ultra small screens */
             }
         }
     </style>
@@ -60,23 +77,44 @@
 <body>
     <h1>Kyoshades Games</h1>
     <div class="game-container">
-        <div class="game-card">
-            <img src="game1-thumbnail.jpg" alt="Game 1">
-            <a href="games/game1.html" target="_blank">Play Game 1</a>
-        </div>
-        <div class="game-card">
-            <img src="game2-thumbnail.jpg" alt="Game 2">
-            <a href="games/game2.html" target="_blank">Play Game 2</a>
-        </div>
-        <div class="game-card">
-            <img src="game1-thumbnail.jpg" alt="Cell Machine">
-            <a href="games/cell-machine.html" target="_blank">Play Cell Machine</a>
-        </div>
-        <div class="game-card">
-            <img src="game3-thumbnail.jpg" alt="Game 3">
-            <a href="games/game3.html" target="_blank">Play Game 3</a>
-        </div>
+        <div class="game-card"><a href="games/game1.html" target="_blank">Play Game 1</a></div>
+        <div class="game-card"><a href="games/game2.html" target="_blank">Play Game 2</a></div>
+        <div class="game-card"><a href="games/cell-machine.html" target="_blank">Play Cell Machine</a></div>
+        <div class="game-card"><a href="games/game3.html" target="_blank">Play Game 3</a></div>
+        <div class="game-card"><a href="games/game4.html" target="_blank">Play Game 4</a></div>
+        <div class="game-card"><a href="games/game5.html" target="_blank">Play Game 5</a></div>
+        <div class="game-card"><a href="games/game6.html" target="_blank">Play Game 6</a></div>
+        <div class="game-card"><a href="games/game7.html" target="_blank">Play Game 7</a></div>
+        <div class="game-card"><a href="games/game8.html" target="_blank">Play Game 8</a></div>
+        <div class="game-card"><a href="games/game9.html" target="_blank">Play Game 9</a></div>
+        <div class="game-card"><a href="games/game10.html" target="_blank">Play Game 10</a></div>
+        <div class="game-card"><a href="games/game11.html" target="_blank">Play Game 11</a></div>
+        <div class="game-card"><a href="games/game12.html" target="_blank">Play Game 12</a></div>
+        <div class="game-card"><a href="games/game13.html" target="_blank">Play Game 13</a></div>
+        <div class="game-card"><a href="games/game14.html" target="_blank">Play Game 14</a></div>
+        <div class="game-card"><a href="games/game15.html" target="_blank">Play Game 15</a></div>
+        <div class="game-card"><a href="games/game16.html" target="_blank">Play Game 16</a></div>
+        <div class="game-card"><a href="games/game17.html" target="_blank">Play Game 17</a></div>
+        <div class="game-card"><a href="games/game18.html" target="_blank">Play Game 18</a></div>
+        <div class="game-card"><a href="games/game19.html" target="_blank">Play Game 19</a></div>
+        <div class="game-card"><a href="games/game20.html" target="_blank">Play Game 20</a></div>
+        <div class="game-card"><a href="games/game21.html" target="_blank">Play Game 21</a></div>
+        <div class="game-card"><a href="games/game22.html" target="_blank">Play Game 22</a></div>
+        <div class="game-card"><a href="games/game23.html" target="_blank">Play Game 23</a></div>
+        <div class="game-card"><a href="games/game24.html" target="_blank">Play Game 24</a></div>
+        <div class="game-card"><a href="games/game25.html" target="_blank">Play Game 25</a></div>
+        <div class="game-card"><a href="games/game26.html" target="_blank">Play Game 26</a></div>
+        <div class="game-card"><a href="games/game27.html" target="_blank">Play Game 27</a></div>
+        <div class="game-card"><a href="games/game28.html" target="_blank">Play Game 28</a></div>
+        <div class="game-card"><a href="games/game29.html" target="_blank">Play Game 29</a></div>
+        <div class="game-card"><a href="games/game30.html" target="_blank">Play Game 30</a></div>
+        <div class="game-card"><a href="games/game31.html" target="_blank">Play Game 31</a></div>
+        <div class="game-card"><a href="games/game32.html" target="_blank">Play Game 32</a></div>
+        <div class="game-card"><a href="games/game33.html" target="_blank">Play Game 33</a></div>
+        <div class="game-card"><a href="games/game34.html" target="_blank">Play Game 34</a></div>
+        <div class="game-card"><a href="games/game35.html" target="_blank">Play Game 35</a></div>
+        <div class="game-card"><a href="games/game36.html" target="_blank">Play Game 36</a></div>
+        <div class="game-card"><a href="games/game37.html" target="_blank">Play Game 37</a></div>
     </div>
 </body>
 </html>
-
