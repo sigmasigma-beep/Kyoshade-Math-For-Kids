@@ -146,7 +146,133 @@
 <body>
     <h1>Kyoshades Games</h1>
     <div class="game-container">
-        <div class="game-card"><a href="games/subway-surfers.html" target="_blank">Subway Surfers (B)</a></div>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Kyoshades Games V1.0</title>
+    <style>
+        * {
+            box-sizing: border-box;
+        }
+        body { 
+            font-family: Arial, sans-serif; 
+            text-align: center; 
+            background: black;
+            background-size: cover;
+            border: 10px solid #BF00FF;
+            box-shadow: 0 0 20px #BF00FF;
+            margin: 0;
+            padding: 0;
+        }
+        h1 { 
+            color: #BF00FF; 
+            margin-top: 40px;
+        }
+        .game-container { 
+            display: grid; 
+            grid-template-columns: repeat(4, 1fr);
+            gap: 10px;
+            justify-content: center; 
+            padding: 20px;
+            max-width: 100%;
+            margin: 0 auto;
+        }
+        .game-card { 
+            width: 100%; 
+            padding: 20px;
+            background: black; 
+            border-radius: 10px; 
+            box-shadow: 2px 2px 10px rgba(0, 0, 0, 0.1); 
+        }
+        .game-card a { 
+            text-decoration: none; 
+            color: #333; 
+            display: block; 
+            margin-top: 10px; 
+            font-weight: bold;
+            padding: 20px;
+            font-size: 20px;
+            border: 2px solid #BF00FF;
+            border-radius: 5px;
+            transition: 0.3s;
+        }
+        .game-card a:hover {
+            background: #BF00FF;
+            color: black;
+        }
+        @media (max-width: 1000px) {
+            .game-container {
+                grid-template-columns: repeat(3, 1fr);
+            }
+        }
+        @media (max-width: 800px) {
+            .game-container {
+                grid-template-columns: repeat(2, 1fr);
+            }
+        }
+        @media (max-width: 500px) {
+            .game-container {
+                grid-template-columns: 1fr;
+            }
+        }
+        .note {
+            color: #BF00FF;
+            margin-top: 20px;
+            font-size: 18px;
+        }
+        .update-button, .vip-button, .theme-button {
+            margin-top: 20px;
+            padding: 10px 20px;
+            font-size: 18px;
+            color: black;
+            background-color: #BF00FF;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: 0.3s;
+        }
+        .update-button:hover, .vip-button:hover, .theme-button:hover {
+            background-color: #9900CC;
+        }
+        .vip-section {
+            display: none;
+            margin-top: 20px;
+            background-color: #333;
+            padding: 20px;
+            border-radius: 5px;
+            color: #BF00FF;
+        }
+        .light-theme {
+            background: url('https://static.zerochan.net/Hatsune.Miku.full.4132488.jpg') no-repeat center 20%;
+            background-size: cover;
+            color: black;
+        }
+        .light-theme h1, .light-theme .game-card a {
+            color: black;
+            border: 2px solid #00FFFF;
+        }
+        .light-theme .game-card {
+            background: transparent;
+        }
+        .light-theme .game-card a:hover {
+            background: #00AEEF;
+            color: white;
+        }
+        .light-theme .vip-button, .light-theme .update-button {
+            background-color: #11FfEE;
+        }
+        .light-theme .theme-button {
+            background-color: transparent;
+            border: 2px solid #00FFFF;
+        }
+    </style>
+</head>
+<body>
+    <h1>Kyoshades Games</h1>
+    <div class="game-container">
+             <div class="game-card"><a href="games/subway-surfers.html" target="_blank">Subway Surfers (B)</a></div>
         <div class="game-card"><a href="games/super-mario-maker-online.html" target="_blank">Super Mario Maker Online</a></div>
         <div class="game-card"><a href="games/cell-machine.html" target="_blank">Cell Machine</a></div>
         <div class="game-card"><a href="games/worlds-hardest-game-2.html" target="_blank">World's Hardest Game 2</a></div>
@@ -187,8 +313,16 @@
         <div class="game-card"><a href="games/doom64.html" target="_blank">doom64</a></div>
         <div class="game-card"><a href="games/thisistheonlylevel.html" target="_blank">thisistheonlylevel</a></div>
     </div>
-
-    <div id="updateBoardSection" style="background: black; color: #BF00FF; padding: 20px; margin-top: 20px; border: 2px solid #BF00FF; border-radius: 5px; text-align: left;">
+    <button class="theme-button" onclick="toggleTheme()">Click (Trust)</button>
+    <script>
+        function toggleTheme() {
+            document.body.classList.toggle('light-theme');
+        }
+    </script>
+</body>
+</html>
+    </div>
+      <div id="updateBoardSection" style="background: black; color: #BF00FF; padding: 20px; margin-top: 20px; border: 2px solid #BF00FF; border-radius: 5px; text-align: left;">
         <h2>Update Board</h2>
         <ul id="updateList">
             <li>v1.4 - Added new games and bug fixes and a Update Board and Plans section
