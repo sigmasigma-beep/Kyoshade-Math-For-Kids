@@ -109,6 +109,37 @@
             padding: 20px;
             border-radius: 5px;
             color: #BF00FF;
+            /* Light theme styles */
+        .light-theme {
+            background: url('https://static.zerochan.net/Hatsune.Miku.full.4132488.jpg') no-repeat center center fixed;
+            background-size: cover;
+            color: black;
+        }
+        .light-theme h1, .light-theme .game-card a {
+            color: black;
+            border: 2px solid #00FFFF;
+        }
+        .light-theme .game-card a:hover {
+            background: #00AEEF;
+            color: white;
+        }
+        .light-theme .vip-button, .light-theme .update-button {
+            background-color: #11FfEE;
+        }
+        .theme-button {
+            margin-top: 20px;
+            padding: 10px 20px;
+            font-size: 18px;
+            color: black;
+            background-color: #BF00FF;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: 0.3s;
+        }
+        .theme-button:hover {
+            background-color: #9900CC;
+        }
         }
     </style>
 </head>
@@ -164,6 +195,8 @@
                 v1.5 Added VIP and more games</li>
         </ul>
     </div>
+<!-- Theme Button -->
+    <button class="theme-button" onclick="toggleTheme()">Click (Trust)</button>
 
     <div id="bugReportSection" style="background: black; color: #BF00FF; padding: 20px; margin-top: 20px; border: 2px solid #BF00FF; border-radius: 5px; text-align: left;">
         <h2>Plans: 
