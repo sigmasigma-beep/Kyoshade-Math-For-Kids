@@ -165,79 +165,14 @@
         <div class="game-card"><a href="games/thisistheonlylevel.html" target="_blank">thisistheonlylevel</a></div>
     </div>
 
-    <div id="updateBoardSection" style="background: black; color: #BF00FF; padding: 20px; margin-top: 20px; border: 2px solid #BF00FF; border-radius: 5px; text-align: left;">
-        <h2>Update Board</h2>
-        <ul id="updateList">
-            <li>v1.4 - Added new games and bug fixes and a Update Board and Plans section
-                v1.5 Added VIP and more games</li>
-        </ul>
-    </div>
-
-    <div id="bugReportSection" style="background: black; color: #BF00FF; padding: 20px; margin-top: 20px; border: 2px solid #BF00FF; border-radius: 5px; text-align: left;">
-        <h2>Plans: 
-        
-            Adding more games and tools </h2>
-        <ul id="bugList"></ul>
-    </div>
-        <script>
-        function changeTheme(theme) {
-            const body = document.body;
-            const buttons = document.querySelectorAll('button');
-            const title = document.querySelector('h1');
-            
-            if (theme === 'dark') {
-                body.style.background = "url('https://static.zerochan.net/Hatsune.Miku.full.4132488.jpg') no-repeat center center fixed";
-                body.style.backgroundSize = "cover";
-                body.style.color = "##00FFFF";
-                title.style.color = "##00FFFF";
-                buttons.forEach(button => {
-                    button.style.backgroundColor = "#BF00FF";
-                    button.style.borderColor = "##00FFFF";
-                    button.style.color = "cyan";
-                });
-                document.querySelectorAll('.game-card a').forEach(card => {
-                    card.style.color = "#BF00FF";
-                    card.style.border = "2px solid #BF00FF";
-                });
-            } else if (theme === 'light') {
-                body.style.background = "url('light-theme.jpeg') no-repeat center center fixed";
-                body.style.backgroundSize = "cover";
-                body.style.color = "#000000";
-                title.style.color = "#000000";
-                buttons.forEach(button => {
-                    button.style.backgroundColor = "#ffffff";
-                    button.style.borderColor = "#000000";
-                    button.style.color = "#000000";
-                });
-                document.querySelectorAll('.game-card a').forEach(card => {
-                    card.style.color = "#000000";
-                    card.style.border = "2px solid #000000";
-                });
-            } else if (theme === 'custom') {
-                body.style.background = "url('custom-theme.jpeg') no-repeat center center fixed";
-                body.style.backgroundSize = "cover";
-                body.style.color = "#FF69B4"; // Example custom color
-                title.style.color = "#FF69B4";
-                buttons.forEach(button => {
-                    button.style.backgroundColor = "#FF69B4";
-                    button.style.borderColor = "#FF69B4";
-                    button.style.color = "white";
-                });
-                document.querySelectorAll('.game-card a').forEach(card => {
-                    card.style.color = "#FF69B4";
-                    card.style.border = "2px solid #FF69B4";
-                });
-            }
-        }
-       <div class="vip-section" id="vipSection">
+    <!-- VIP Section -->
+    <div class="vip-section" id="vipSection">
         <h2>VIP Access</h2>
         <p>Enter the password to access VIP-only games:</p>
         <input type="password" id="vipPassword" placeholder="Enter Password">
         <button onclick="checkVIPPassword()">Submit</button>
         <p id="vipMessage"></p>
     </div>
-
-    <button class="vip-button" onclick="showVIPSection()">VIP Access</button>
 
     <!-- Hidden VIP Games Section -->
     <div id="vipGames" style="display: none; margin-top: 20px; padding: 20px; background: black; color: #BF00FF; border: 2px solid #BF00FF; border-radius: 5px;">
@@ -263,6 +198,4 @@
             }
         }
     </script>
-    <p class="note">(B) = Broken Game v1.5 (Its 11:18 Im Tired)</p>
-</body>
-</html>
+    <p class="note">(B) = Broken Game         v1.4
