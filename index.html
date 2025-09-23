@@ -116,14 +116,43 @@
 <body>
 <h1>Kyoshade-Math-For-Kids</h1>
 <div class="math-container">
- <div class="math-card"><a href="maths/subway-surfers.html">Game Here</a></div>
- <div class="math-card"><a href="maths/subway-surfers.html">Game Here</a></div>
- <div class="math-card"><a href="maths/subway-surfers.html">Game Here</a></div>
- <div class="math-card"><a href="maths/subway-surfers.html">Game Here</a></div>
- <div class="math-card"><a href="maths/subway-surfers.html">Game Here</a></div>
+    <div class="math-card">
+        <a href="maths/subway-surfers.html" onclick="openGame(event, this)">Game Here</a>
+    </div>
+    <div class="math-card">
+        <a href="maths/subway-surfers.html" onclick="openGame(event, this)">Game Here</a>
+    </div>
+    <div class="math-card">
+        <a href="maths/subway-surfers.html" onclick="openGame(event, this)">Game Here</a>
+    </div>
+    <div class="math-card">
+        <a href="maths/subway-surfers.html" onclick="openGame(event, this)">Game Here</a>
+    </div>
 </div>
 
+<div id="game-container" style="margin-top:20px;"></div>
 
+<script>
+function openGame(event, link) {
+    event.preventDefault(); // Prevent normal navigation
+
+    const container = document.getElementById('game-container');
+    container.innerHTML = ''; // Clear previous iframe
+
+    const iframe = document.createElement('iframe');
+    iframe.src = link.href;  // Use the href from the link
+    iframe.width = '100%';
+    iframe.height = '400px';
+    iframe.style.border = 'none';
+    iframe.style.borderRadius = '10px';
+
+    container.appendChild(iframe);
+}
+</script>
+
+
+
+   
 function toggleTheme() {
     document.body.classList.toggle('light-theme');
 }
