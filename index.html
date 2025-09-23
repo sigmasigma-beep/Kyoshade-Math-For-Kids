@@ -154,6 +154,315 @@ function openGame(event, link) {
 </script>
 
 
+<button id="loadKyoBtn" style="
+  padding:5px 10px;
+  border:2px solid #9b59ff;
+  background:#9b59ff;
+  color:#fff;
+  cursor:pointer;
+  font-weight:bold;
+  margin:10px;
+">
+  Load Kyo Executor 2
+</button>
+
+<script>
+document.getElementById('loadKyoBtn').addEventListener('click', () => {
+ (function() {
+  const container = document.createElement('div');
+  container.style.cssText = `
+    font-family:sans-serif;
+    background: linear-gradient(180deg,#2b0b3a,#5b1aa8);
+    color:#f6f5fb;
+    padding:8px;
+    width:350px;
+    max-width:90%;
+    position:fixed;
+    top:50px;
+    left:50px;
+    z-index:9999;
+    box-shadow:0 6px 20px rgba(0,0,0,0.45);
+    border:2px solid #9b59ff;
+    cursor: move;
+  `;
+  container.innerHTML = `
+    <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:4px;">
+      <h2 style="margin:0;font-size:14px;">Kyo Executor 2</h2>
+      <button id="minimizeBtn" style="border:2px solid #9b59ff;background:#9b59ff;color:#fff;width:20px;height:20px;cursor:pointer;display:flex;align-items:center;justify-content:center;">_</button>
+    </div>
+
+    <div id="tabs" style="display:flex; gap:2px; margin-bottom:4px;"></div>
+    <div id="scriptContainer"></div>
+
+    <div style="margin-top:4px; display:flex; flex-wrap: wrap; gap:2px;">
+      <button id="runBtn" style="border:2px solid #9b59ff;background:#9b59ff;color:#fff;width:25px;height:25px;cursor:pointer;display:flex;align-items:center;justify-content:center;">▶</button>
+      <button id="clearBtn" style="border:2px solid #9b59ff;background:#9b59ff;color:#fff;width:25px;height:25px;cursor:pointer;display:flex;align-items:center;justify-content:center;">C</button>
+      <button id="copyBtn" style="border:2px solid #9b59ff;background:#9b59ff;color:#fff;width:25px;height:25px;cursor:pointer;display:flex;align-items:center;justify-content:center;">⎘</button>
+      <button id="newTabBtn" style="border:2px solid #9b59ff;background:#9b59ff;color:#fff;width:25px;height:25px;cursor:pointer;display:flex;align-items:center;justify-content:center;">+</button>
+      <button id="renameTabBtn" style="border:2px solid #9b59ff;background:#9b59ff;color:#fff;width:25px;height:25px;cursor:pointer;display:flex;align-items:center;justify-content:center;">✎</button>
+      <button id="saveFavoriteBtn" style="border:2px solid #9b59ff;background:#9b59ff;color:#fff;width:25px;height:25px;cursor:pointer;display:flex;align-items:center;justify-content:center;">★</button>
+      <button id="loadFileBtn" style="border:2px solid #9b59ff;background:#9b59ff;color:#fff;width:25px;height:25px;cursor:pointer;display:flex;align-items:center;justify-content:center;">📂</button>
+      <button id="exportFavsBtn" style="border:2px solid #9b59ff;background:#9b59ff;color:#fff;width:25px;height:25px;cursor:pointer;display:flex;align-items:center;justify-content:center;">⬇</button>
+      <button id="importFavsBtn" style="border:2px solid #9b59ff;background:#9b59ff;color:#fff;width:25px;height:25px;cursor:pointer;display:flex;align-items:center;justify-content:center;">⬆</button>
+    </div>
+
+    <div id="favoritesContainer" style="margin-top:4px; border:2px solid #9b59ff; padding:2px;">
+      <div style="display:flex;justify-content:space-between;align-items:center;">
+        <span style="font-size:12px;">Favorites</span>
+        <button id="toggleFavorites" style="border:2px solid #9b59ff;background:#9b59ff;color:#fff;width:20px;height:20px;cursor:pointer;display:flex;align-items:center;justify-content:center;">_</button>
+      </div>
+      <div id="favoritesList" style="margin-top:2px; max-height:80px; overflow:auto;"></div>
+    </div>
+  `;
+  document.body.appendChild(container);
+
+  const tabsDiv = container.querySelector('#tabs');
+  const scriptContainer = container.querySelector('#scriptContainer');
+  const minimizeBtn = container.querySelector('#minimizeBtn');
+  const runBtn = container.querySelector('#runBtn');
+  const clearBtn = container.querySelector('#clearBtn');
+  const copyBtn = container.querySelector('#copyBtn');
+  const newTabBtn = container.querySelector('#newTabBtn');
+  const renameTabBtn = container.querySelector('#renameTabBtn');
+  const saveFavoriteBtn = container.querySelector('#saveFavoriteBtn');
+  const loadFileBtn = container.querySelector('#loadFileBtn');
+  const exportFavsBtn = container.querySelector('#exportFavsBtn');
+  const importFavsBtn = container.querySelector('#importFavsBtn');
+  const favoritesList = container.querySelector('#favoritesList');
+  const toggleFavoritesBtn = container.querySelector('#toggleFavorites');
+
+  let tabs = [];
+  let activeTab = null;
+
+  // Favorites in localStorage
+  function getFavorites(){ return JSON.parse(localStorage.getItem('kyoFavorites') || '[]'); }
+  function saveFavorites(favs){ localStorage.setItem('kyoFavorites', JSON.stringify(favs)); }
+
+  function renderFavorites(){
+    favoritesList.innerHTML='';
+    getFavorites().forEach((fav,index)=>{
+      const favContainer = document.createElement('div');
+      favContainer.style.cssText='display:flex;align-items:center;gap:2px;margin-bottom:2px;';
+
+      const favBtn=document.createElement('button');
+      favBtn.textContent=fav.name;
+      favBtn.style.cssText=`
+        border:2px solid #9b59ff;
+        background:#9b59ff;
+        color:#fff;
+        cursor:pointer;
+        flex:1;
+        height:25px;
+        font-size:11px;
+        display:flex;
+        align-items:center;
+        justify-content:flex-start;
+        padding-left:4px;
+      `;
+      favBtn.addEventListener('click',()=>{if(activeTab) activeTab.textarea.value=fav.code;});
+
+      const delBtn=document.createElement('button');
+      delBtn.textContent='×';
+      delBtn.style.cssText=`
+        border:2px solid #9b59ff;
+        background:#9b59ff;
+        color:#fff;
+        width:20px;
+        height:25px;
+        cursor:pointer;
+        display:flex;
+        align-items:center;
+        justify-content:center;
+        font-size:12px;
+      `;
+      delBtn.addEventListener('click',()=>{
+        const favs=getFavorites();
+        favs.splice(index,1);
+        saveFavorites(favs);
+        renderFavorites();
+      });
+
+      favContainer.appendChild(favBtn);
+      favContainer.appendChild(delBtn);
+      favoritesList.appendChild(favContainer);
+    });
+  }
+
+  function createTab(name='Script'){
+    const tabButton = document.createElement('button');
+    tabButton.textContent = name;
+    tabButton.style.cssText = `
+      border:2px solid #9b59ff;
+      background:#9b59ff;
+      color:#fff;
+      cursor:pointer;
+      padding:1px 4px;
+      font-size:11px;
+    `;
+    tabsDiv.appendChild(tabButton);
+
+    const textarea = document.createElement('textarea');
+    textarea.style.cssText = `
+      width:100%; min-height:70px; border:2px solid #9b59ff; padding:4px;
+      background:#000; color:#fff; font-family: monospace; font-size:11px; resize:vertical;
+      outline:none; text-align:left;
+    `;
+    textarea.style.display='none';
+    scriptContainer.appendChild(textarea);
+
+    tabs.push({button:tabButton,textarea});
+    switchTab(tabs.length-1);
+
+    tabButton.addEventListener('click',()=>switchTab(tabs.indexOf(tabs.find(t=>t.button===tabButton))));
+  }
+
+  function switchTab(index){
+    tabs.forEach((tab,i)=>{
+      tab.textarea.style.display = i===index?'block':'none';
+      tab.button.style.opacity = i===index?'1':'0.5';
+    });
+    activeTab=tabs[index];
+  }
+
+  newTabBtn.addEventListener('click',()=>createTab('Script'));
+  createTab('Main');
+
+  renameTabBtn.addEventListener('click',()=>{
+    if(activeTab){
+      const newName = prompt('Enter new tab name:',activeTab.button.textContent);
+      if(newName) activeTab.button.textContent=newName;
+    }
+  });
+
+  toggleFavoritesBtn.addEventListener('click',()=>{
+    const list=favoritesList;
+    list.style.display=list.style.display==='none'?'block':'none';
+  });
+
+  saveFavoriteBtn.addEventListener('click',()=>{
+    if(activeTab){
+      const name = prompt('Favorite name:', 'My Script');
+      if(name){
+        const favs = getFavorites();
+        favs.push({name, code: activeTab.textarea.value});
+        saveFavorites(favs);
+        renderFavorites();
+      }
+    }
+  });
+
+  renderFavorites();
+
+  loadFileBtn.addEventListener('click',()=>{
+    const fileInput=document.createElement('input');
+    fileInput.type='file';
+    fileInput.accept='.js,.txt';
+    fileInput.onchange=e=>{
+      const file=e.target.files[0];
+      const reader=new FileReader();
+      reader.onload=()=>{if(activeTab) activeTab.textarea.value=reader.result;};
+      reader.readAsText(file);
+    };
+    fileInput.click();
+  });
+
+  // Export favorites as JSON
+  exportFavsBtn.addEventListener('click',()=>{
+    const favs=getFavorites();
+    const blob=new Blob([JSON.stringify(favs, null, 2)], {type:'application/json'});
+    const url=URL.createObjectURL(blob);
+    const a=document.createElement('a');
+    a.href=url;
+    a.download='kyoFavorites.json';
+    a.click();
+    URL.revokeObjectURL(url);
+  });
+
+  // Import favorites from JSON
+  importFavsBtn.addEventListener('click',()=>{
+    const fileInput=document.createElement('input');
+    fileInput.type='file';
+    fileInput.accept='.json';
+    fileInput.onchange=e=>{
+      const file=e.target.files[0];
+      const reader=new FileReader();
+      reader.onload=()=>{
+        try{
+          const imported=JSON.parse(reader.result);
+          if(Array.isArray(imported)){
+            saveFavorites(imported);
+            renderFavorites();
+          }else alert('Invalid JSON format');
+        }catch(e){alert('Error reading JSON');}
+      };
+      reader.readAsText(file);
+    };
+    fileInput.click();
+  });
+
+  // Minimize
+  let minimized=false;
+  minimizeBtn.addEventListener('click',()=>{
+    minimized=!minimized;
+    scriptContainer.style.display=minimized?'none':'block';
+    tabsDiv.style.display=minimized?'none':'flex';
+    [runBtn,clearBtn,copyBtn,newTabBtn,renameTabBtn,saveFavoriteBtn,loadFileBtn,exportFavsBtn,importFavsBtn].forEach(b=>b.style.display=minimized?'none':'inline-flex');
+  });
+
+  // Output
+  const output=document.createElement('pre');
+  output.style.cssText=`
+    background:#000;padding:4px;overflow:auto;max-height:60px;font-family:monospace;
+    border:2px solid #9b59ff;color:#fff;text-align:left;font-size:11px;
+  `;
+  container.appendChild(output);
+
+  function appendOutput(msg,type='log'){
+    const line=document.createElement('div');
+    if(type==='error') line.style.color='#ff7b7b';
+    line.textContent=msg;
+    output.appendChild(line);
+    output.scrollTop=output.scrollHeight;
+  }
+
+  const origConsoleLog = console.log;
+  console.log=(...args)=>{ appendOutput(args.join(' ')); origConsoleLog(...args); };
+
+  runBtn.addEventListener('click',()=>{
+    if(activeTab){
+      try{
+        const result=eval(activeTab.textarea.value);
+        if(result!==undefined) appendOutput(result);
+      }catch(e){ appendOutput(e.message,'error'); }
+    }
+  });
+  clearBtn.addEventListener('click',()=>output.textContent='');
+  copyBtn.addEventListener('click',()=>{
+    if(activeTab) navigator.clipboard.writeText(activeTab.textarea.value).then(()=>appendOutput('Code copied!'));
+  });
+
+  // Drag
+  let isDragging=false,offsetX=0,offsetY=0;
+  container.addEventListener('mousedown',e=>{
+    if(['BUTTON','INPUT'].includes(e.target.tagName)) return;
+    isDragging=true;
+    offsetX=e.clientX-container.getBoundingClientRect().left;
+    offsetY=e.clientY-container.getBoundingClientRect().top;
+  });
+  document.addEventListener('mousemove',e=>{
+    if(isDragging){
+      container.style.left=(e.clientX-offsetX)+'px';
+      container.style.top=(e.clientY-offsetY)+'px';
+    }
+  });
+  document.addEventListener('mouseup',()=>isDragging=false);
+
+})();
+
+    })();
+});
+</script>
+
    
 function toggleTheme() {
     document.body.classList.toggle('light-theme');
