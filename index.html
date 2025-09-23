@@ -130,31 +130,7 @@
     </div>
 </div>
 
-<div id="game-container" style="margin: 20px auto; width: 90%; max-width: 1200px; height: 0; overflow: hidden; transition: height 0.5s ease;"></div>
-
-<script>
-function openGame(event, link) {
-    event.preventDefault(); // Prevent normal navigation
-
-    const container = document.getElementById('game-container');
-    container.innerHTML = ''; // Clear previous iframe
-
-    const iframe = document.createElement('iframe');
-    iframe.src = link.href;
-    iframe.width = '100%';
-    iframe.height = '800px'; // height of the game
-    iframe.style.border = 'none';
-    iframe.style.borderRadius = '10px';
-
-    container.appendChild(iframe);
-    
-    // Smoothly expand container to fit iframe
-    container.style.height = '820px'; // slightly taller than iframe for padding
-}
-</script>
-
-
-<button id="loadKyoBtn" style="
+   <button id="loadKyoBtn" style="
   padding:5px 10px;
   border:2px solid #9b59ff;
   background:#9b59ff;
@@ -462,6 +438,32 @@ document.getElementById('loadKyoBtn').addEventListener('click', () => {
     })();
 });
 </script>
+   
+<div id="game-container" style="margin: 20px auto; width: 90%; max-width: 1200px; height: 0; overflow: hidden; transition: height 0.5s ease;"></div>
+
+<script>
+function openGame(event, link) {
+    event.preventDefault(); // Prevent normal navigation
+
+    const container = document.getElementById('game-container');
+    container.innerHTML = ''; // Clear previous iframe
+
+    const iframe = document.createElement('iframe');
+    iframe.src = link.href;
+    iframe.width = '100%';
+    iframe.height = '800px'; // height of the game
+    iframe.style.border = 'none';
+    iframe.style.borderRadius = '10px';
+
+    container.appendChild(iframe);
+    
+    // Smoothly expand container to fit iframe
+    container.style.height = '820px'; // slightly taller than iframe for padding
+}
+</script>
+
+
+
 
    
 function toggleTheme() {
