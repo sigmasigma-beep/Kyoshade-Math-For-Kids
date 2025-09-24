@@ -3,64 +3,147 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Script Hub</title>
+<title>Kyoshade Script Hub</title>
 <style>
-body { font-family: Arial, sans-serif; background: black; color: #BF00FF; text-align: center; margin: 0; padding: 0; }
-h1 { margin: 20px; }
-#script-list { margin: 20px auto; max-width: 800px; text-align: left; }
-.script-card { background: #111; padding: 10px; margin-bottom: 10px; border: 2px solid #BF00FF; border-radius: 5px; }
-.script-card button { margin-left: 5px; padding: 5px 10px; background: #BF00FF; border: none; color: black; cursor: pointer; font-weight: bold; }
-.script-card button:hover { background: #9900CC; }
+    body { 
+        font-family: Arial, sans-serif; 
+        background: black; 
+        color: #BF00FF;
+        margin: 0;
+        padding: 20px;
+        text-align: center;
+    }
+    h1 {
+        font-size: 32px;
+        margin-bottom: 20px;
+        text-shadow: 0 0 10px #BF00FF;
+    }
+    #scripts-container {
+        display: grid;
+        grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+        gap: 15px;
+        margin-bottom: 20px;
+    }
+    .script-card {
+        background: #111;
+        padding: 15px;
+        border: 2px solid #BF00FF;
+        border-radius: 10px;
+        box-shadow: 0 0 15px #BF00FF;
+    }
+    .script-name {
+        font-weight: bold;
+        margin-bottom: 10px;
+        word-break: break-word;
+    }
+    .script-buttons button {
+        margin: 5px;
+        padding: 8px 12px;
+        border: 2px solid #BF00FF;
+        background: #111;
+        color: #BF00FF;
+        font-weight: bold;
+        border-radius: 5px;
+        cursor: pointer;
+        transition: 0.3s;
+    }
+    .script-buttons button:hover {
+        background: #BF00FF;
+        color: black;
+        transform: scale(1.05);
+    }
+    #output {
+        background: #000;
+        border: 2px solid #BF00FF;
+        border-radius: 5px;
+        color: #0ff;
+        font-family: monospace;
+        padding: 10px;
+        max-height: 200px;
+        overflow-y: auto;
+        text-align: left;
+    }
 </style>
 </head>
 <body>
+<h1>Kyoshade Script Hub</h1>
 
-<h1>Script Hub</h1>
-<div id="script-list">Loading scripts...</div>
+<div id="scripts-container">
+    Loading scripts...
+</div>
+
+<h2>Console Output</h2>
+<div id="output"></div>
 
 <script>
-const GOFILE_FILE_ID = '29c06662-57d8-4d94-8aa7-b7903054f6d4'; // Replace with your JSON file ID
-const GOFILE_API = 'https://api.gofile.io';
+const folderId = "29c06662-57d8-4d94-8aa7-b7903054f6d4";
+const container = document.getElementById("scripts-container");
 
-// Load all scripts from Gofile JSON
-async function loadScripts() {
-  try {
-    const res = await fetch(`${GOFILE_API}/getContent?contentId=${GOFILE_FILE_ID}`);
-    const data = await res.json();
-    if (data.status === 'ok') {
-      const scripts = JSON.parse(data.data);
-      renderScripts(scripts);
-    } else {
-      document.getElementById('script-list').textContent = 'Failed to load scripts.';
+async function loadFolderScripts() {
+    container.textContent = "Loading scripts...";
+    try {
+        const res = await fetch(`https://api.gofile.io/getContent?contentId=${folderId}`);
+        const data = await res.json();
+
+        if (data.status !== "ok") {
+            container.textContent = "Error fetching folder: " + JSON.stringify(data);
+            return;
+        }
+
+        container.innerHTML = "";
+        data.data.forEach(file => {
+            const card = document.createElement("div");
+            card.className = "script-card";
+            card.innerHTML = `
+                <div class="script-name">${file.name}</div>
+                <div class="script-buttons">
+                    <button class="load-btn">Load</button>
+                    <button class="copy-btn">Copy</button>
+                </div>
+            `;
+            const loadBtn = card.querySelector(".load-btn");
+            const copyBtn = card.querySelector(".copy-btn");
+
+            loadBtn.addEventListener("click", async () => {
+                try {
+                    const scriptRes = await fetch(file.link);
+                    const code = await scriptRes.text();
+                    eval(code);
+                    appendOutput(`Executed: ${file.name}`);
+                } catch(e) {
+                    appendOutput(`Error executing ${file.name}: ${e.message}`);
+                }
+            });
+
+            copyBtn.addEventListener("click", async () => {
+                try {
+                    const scriptRes = await fetch(file.link);
+                    const code = await scriptRes.text();
+                    await navigator.clipboard.writeText(code);
+                    appendOutput(`Copied: ${file.name}`);
+                } catch(e) {
+                    appendOutput(`Error copying ${file.name}: ${e.message}`);
+                }
+            });
+
+            container.appendChild(card);
+        });
+    } catch(e) {
+        container.textContent = "Error fetching folder: " + e.message;
     }
-  } catch(e) {
-    document.getElementById('script-list').textContent = 'Error fetching scripts: ' + e.message;
-  }
 }
 
-// Render the scripts in the hub
-function renderScripts(scripts) {
-  const list = document.getElementById('script-list');
-  list.innerHTML = '';
-  scripts.forEach((s, i) => {
-    const div = document.createElement('div');
-    div.className = 'script-card';
-    div.innerHTML = `
-      <strong>${s.name}</strong>
-      <button onclick="copyScript(\`${s.code.replace(/`/g,'\\`')}\`)">Copy</button>
-    `;
-    list.appendChild(div);
-  });
-}
-
-// Copy script code to clipboard
-function copyScript(code) {
-  navigator.clipboard.writeText(code);
-  alert('Script copied!');
+function appendOutput(msg) {
+    const output = document.getElementById("output");
+    const div = document.createElement("div");
+    div.textContent = msg;
+    output.appendChild(div);
+    output.scrollTop = output.scrollHeight;
 }
 
 // Load scripts on page load
-loadScripts();
+loadFolderScripts();
 </script>
 </body>
 </html>
+
