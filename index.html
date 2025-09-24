@@ -156,8 +156,7 @@
 <script>
 function openGame(event, link) {
     event.preventDefault();
-
-    const filename = link.getAttribute('data-filename');
+    const filename = link.getAttribute('data-filename').replace(/ /g, '%20');
     const container = document.getElementById('game-container');
     container.innerHTML = '';
 
@@ -169,8 +168,7 @@ function openGame(event, link) {
     iframe.style.border = "none";
     container.appendChild(iframe);
 }
-
-function runScript() {
+ {
     const code = document.getElementById('console-input').value;
     const iframe = document.getElementById('game-frame');
 
