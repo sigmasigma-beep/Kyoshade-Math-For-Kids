@@ -131,8 +131,9 @@
 </div>
 
    
-
 <script>
+window.addEventListener('DOMContentLoaded', () => {
+  (function() {
  (function() {
   const container = document.createElement('div');
   container.style.cssText = `
@@ -423,6 +424,7 @@
   document.addEventListener('mouseup',()=>isDragging=false);
 
 })();
+
 </script>
    
 <div id="game-container" style="margin: 20px auto; width: 90%; max-width: 1200px; height: 0; overflow: hidden; transition: height 0.5s ease;"></div>
