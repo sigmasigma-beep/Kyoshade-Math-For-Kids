@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Script Hub</title>
+<style>
+body { font-family: Arial, sans-serif; background: black; color: #BF00FF; text-align: center; margin: 0; padding: 0; }
+h1 { margin: 20px; }
+#script-list { margin: 20px auto; max-width: 800px; text-align: left; }
+.script-card { background: #111; padding: 10px; margin-bottom: 10px; border: 2px solid #BF00FF; border-radius: 5px; }
+.script-card button { margin-left: 5px; padding: 5px 10px; background: #BF00FF; border: none; color: black; cursor: pointer; font-weight: bold; }
+.script-card button:hover { background: #9900CC; }
+</style>
+</head>
+<body>
+
+<h1>Script Hub</h1>
+<div id="script-list">Loading scripts...</div>
+
+<script>
+const GOFILE_FILE_ID = '29c06662-57d8-4d94-8aa7-b7903054f6d4'; // Replace with your JSON file ID
+const GOFILE_API = 'https://api.gofile.io';
+
+// Load all scripts from Gofile JSON
+async function loadScripts() {
+  try {
+    const res = await fetch(`${GOFILE_API}/getContent?contentId=${GOFILE_FILE_ID}`);
+    const data = await res.json();
+    if (data.status === 'ok') {
+      const scripts = JSON.parse(data.data);
+      renderScripts(scripts);
+    } else {
+      document.getElementById('script-list').textContent = 'Failed to load scripts.';
+    }
+  } catch(e) {
+    document.getElementById('script-list').textContent = 'Error fetching scripts: ' + e.message;
+  }
+}
+
+// Render the scripts in the hub
+function renderScripts(scripts) {
+  const list = document.getElementById('script-list');
+  list.innerHTML = '';
+  scripts.forEach((s, i) => {
+    const div = document.createElement('div');
+    div.className = 'script-card';
+    div.innerHTML = `
+      <strong>${s.name}</strong>
+      <button onclick="copyScript(\`${s.code.replace(/`/g,'\\`')}\`)">Copy</button>
+    `;
+    list.appendChild(div);
+  });
+}
+
+// Copy script code to clipboard
+function copyScript(code) {
+  navigator.clipboard.writeText(code);
+  alert('Script copied!');
+}
+
+// Load scripts on page load
+loadScripts();
+</script>
+</body>
+</html>
