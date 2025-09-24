@@ -3,147 +3,107 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Kyoshade Script Hub</title>
+<title>Script Hub</title>
 <style>
-    body { 
-        font-family: Arial, sans-serif; 
-        background: black; 
-        color: #BF00FF;
+    body {
+        font-family: Arial, sans-serif;
+        background: #000;
+        color: #0ff;
         margin: 0;
         padding: 20px;
-        text-align: center;
     }
     h1 {
-        font-size: 32px;
-        margin-bottom: 20px;
-        text-shadow: 0 0 10px #BF00FF;
-    }
-    #scripts-container {
-        display: grid;
-        grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
-        gap: 15px;
-        margin-bottom: 20px;
-    }
-    .script-card {
-        background: #111;
-        padding: 15px;
-        border: 2px solid #BF00FF;
-        border-radius: 10px;
-        box-shadow: 0 0 15px #BF00FF;
-    }
-    .script-name {
-        font-weight: bold;
-        margin-bottom: 10px;
-        word-break: break-word;
-    }
-    .script-buttons button {
-        margin: 5px;
-        padding: 8px 12px;
-        border: 2px solid #BF00FF;
-        background: #111;
+        text-align: center;
         color: #BF00FF;
-        font-weight: bold;
-        border-radius: 5px;
-        cursor: pointer;
-        transition: 0.3s;
+        margin-bottom: 20px;
     }
-    .script-buttons button:hover {
+    #hub {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 10px;
+        justify-content: center;
+        margin-bottom: 20px;
+    }
+    .script-btn {
+        padding: 10px 16px;
         background: #BF00FF;
         color: black;
-        transform: scale(1.05);
+        border: none;
+        border-radius: 5px;
+        cursor: pointer;
+        font-weight: bold;
+        transition: all 0.3s ease;
     }
-    #output {
-        background: #000;
+    .script-btn:hover {
+        background: #9900CC;
+    }
+    #console-input {
+        width: 100%;
+        height: 150px;
+        background: #111;
+        color: #0ff;
         border: 2px solid #BF00FF;
         border-radius: 5px;
-        color: #0ff;
-        font-family: monospace;
         padding: 10px;
-        max-height: 200px;
-        overflow-y: auto;
-        text-align: left;
+        font-family: monospace;
+        resize: none;
     }
 </style>
 </head>
 <body>
-<h1>Kyoshade Script Hub</h1>
 
-<div id="scripts-container">
-    Loading scripts...
+<h1>Script Hub</h1>
+
+<div id="hub">
+    <!-- Add scripts here manually -->
+    <button class="script-btn" onclick="copyScript(`(function() {
+    'use strict';
+
+    // Set the desired speed and set points here
+    const desiredSpeed = 5;
+    const desiredSetPoints = 10;
+
+    // Wait for the page to load
+    window.addEventListener('load', () => {
+        // Find the elements that control the speed and set points
+        const speedElement = document.querySelector('[name="speed"]');
+        const setPointsElement = document.querySelector('[name="setPoints"]');
+
+        // Check if the elements were found
+        if (speedElement && setPointsElement) {
+            // Set the speed and set points to the desired values
+            speedElement.value = desiredSpeed;
+            setPointsElement.value = desiredSetPoints;
+
+            // Trigger a change event to apply the new values
+            const event = new Event('change');
+            speedElement.dispatchEvent(event);
+            setPointsElement.dispatchEvent(event);
+        }
+    });
+})();`)">Slope speed/points hack</button>
+
+ <button class="script-btn" onclick="copyScript(``)">Slope speed/points hack</button>
+     <button class="script-btn" onclick="copyScript(``)">Slope speed/points hack</button>
 </div>
 
-<h2>Console Output</h2>
-<div id="output"></div>
+<textarea id="console-input" placeholder="// Click a script to load it here"></textarea>
 
 <script>
-const folderId = "29c06662-57d8-4d94-8aa7-b7903054f6d4";
-const container = document.getElementById("scripts-container");
+function copyScript(code) {
+    // Load script into textarea
+    const textarea = document.getElementById('console-input');
+    textarea.value = code;
 
-async function loadFolderScripts() {
-    container.textContent = "Loading scripts...";
-    try {
-        const res = await fetch(`https://api.gofile.io/getContent?contentId=${folderId}`);
-        const data = await res.json();
-
-        if (data.status !== "ok") {
-            container.textContent = "Error fetching folder: " + JSON.stringify(data);
-            return;
-        }
-
-        container.innerHTML = "";
-        data.data.forEach(file => {
-            const card = document.createElement("div");
-            card.className = "script-card";
-            card.innerHTML = `
-                <div class="script-name">${file.name}</div>
-                <div class="script-buttons">
-                    <button class="load-btn">Load</button>
-                    <button class="copy-btn">Copy</button>
-                </div>
-            `;
-            const loadBtn = card.querySelector(".load-btn");
-            const copyBtn = card.querySelector(".copy-btn");
-
-            loadBtn.addEventListener("click", async () => {
-                try {
-                    const scriptRes = await fetch(file.link);
-                    const code = await scriptRes.text();
-                    eval(code);
-                    appendOutput(`Executed: ${file.name}`);
-                } catch(e) {
-                    appendOutput(`Error executing ${file.name}: ${e.message}`);
-                }
-            });
-
-            copyBtn.addEventListener("click", async () => {
-                try {
-                    const scriptRes = await fetch(file.link);
-                    const code = await scriptRes.text();
-                    await navigator.clipboard.writeText(code);
-                    appendOutput(`Copied: ${file.name}`);
-                } catch(e) {
-                    appendOutput(`Error copying ${file.name}: ${e.message}`);
-                }
-            });
-
-            container.appendChild(card);
-        });
-    } catch(e) {
-        container.textContent = "Error fetching folder: " + e.message;
-    }
+    // Copy script to clipboard
+    navigator.clipboard.writeText(code).then(() => {
+        alert('Script copied to clipboard!');
+    }).catch(err => {
+        alert('Failed to copy script: ' + err);
+    });
 }
-
-function appendOutput(msg) {
-    const output = document.getElementById("output");
-    const div = document.createElement("div");
-    div.textContent = msg;
-    output.appendChild(div);
-    output.scrollTop = output.scrollHeight;
-}
-
-// Load scripts on page load
-loadFolderScripts();
 </script>
+
 </body>
 </html>
 
