@@ -5,162 +5,48 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Kyoshade-Math-For-Kids</title>
 <style>
-    body { 
-        font-family: Arial, sans-serif; 
-        text-align: center; 
-        background: black;
-        margin: 0;
-        padding: 0;
-    }
-    h1 { color: #BF00FF; margin-top: 20px; }
+body { font-family: Arial; text-align: center; background: black; margin:0; padding:0; }
+h1 { color:#BF00FF; margin-top:20px; }
 
-    /* Game grid */
-    .math-container { 
-        display: grid; 
-        grid-template-columns: repeat(4, 1fr);
-        gap: 10px;
-        padding: 20px;
-        max-width: 100%;
-        margin: 0 auto;
-    }
-    .math-card { 
-        background: black; 
-        padding: 20px;
-        border-radius: 10px; 
-        box-shadow: 0 0 10px #BF00FF;
-    }
-    .math-card a { 
-        display: block;
-        padding: 20px;
-        font-size: 18px;
-        font-weight: bold;
-        color: #BF00FF;
-        border: 2px solid #BF00FF;
-        border-radius: 5px;
-        text-decoration: none;
-    }
-    .math-card a:hover {
-        background: #BF00FF;
-        color: black;
-    }
+.math-container { display: grid; grid-template-columns: repeat(4, 1fr); gap:10px; padding:20px; max-width:100%; margin:0 auto; }
+.math-card { background:black; padding:20px; border-radius:10px; box-shadow:0 0 10px #BF00FF; }
+.math-card a { display:block; padding:20px; font-size:18px; font-weight:bold; color:#BF00FF; border:2px solid #BF00FF; border-radius:5px; text-decoration:none; }
+.math-card a:hover { background:#BF00FF; color:black; }
 
-    /* Game container */
-    #game-container {
-        margin: 20px auto;
-        width: 90%;
-        max-width: 1200px;
-        height: 0;
-        overflow: hidden;
-        transition: height 0.5s ease;
-    }
-    #game-container iframe {
-        width: 100%;
-        height: 100%;
-        border: none;
-        border-radius: 10px;
-    }
+#game-container { margin:20px auto; width:90%; max-width:1200px; height:0; overflow:hidden; transition:height 0.5s ease; }
+#game-container iframe { width:100%; height:100%; border:none; border-radius:10px; }
 
-    /* Console panel */
-    #console-wrapper {
-        position: fixed;
-        bottom: 0;
-        left: 0;
-        width: 100%;
-    }
-    #console {
-        background: #000;
-        border-top: 2px solid #BF00FF;
-        padding: 10px;
-        box-sizing: border-box;
-    }
-    #console textarea {
-        width: 100%;
-        height: 100px;
-        background: #111;
-        color: #0ff;
-        font-family: monospace;
-        border: 2px solid #BF00FF;
-        border-radius: 5px;
-        padding: 8px;
-        resize: none;
-    }
-    #console button {
-        margin-top: 8px;
-        padding: 8px 16px;
-        background: #BF00FF;
-        border: none;
-        border-radius: 5px;
-        font-weight: bold;
-        cursor: pointer;
-        color: black;
-    }
-    #console button:hover {
-        background: #9900CC;
-    }
+#console-wrapper { position:fixed; bottom:0; left:0; width:100%; display:none; }
+#console { background:#000; border-top:2px solid #BF00FF; padding:10px; box-sizing:border-box; }
+#console textarea { width:100%; height:100px; background:#111; color:#0ff; font-family:monospace; border:2px solid #BF00FF; border-radius:5px; padding:8px; resize:none; }
+#console button { margin-top:8px; padding:8px 16px; background:#BF00FF; border:none; border-radius:5px; font-weight:bold; cursor:pointer; color:black; }
+#console button:hover { background:#9900CC; }
 
-    /* Script Hub iframe */
-    #script-hub {
-        display: none;
-        width: 100%;
-        height: 300px;
-        border: none;
-        margin-top: 10px;
-    }
-
-    /* Toggle button */
-    #toggle-console {
-        position: fixed;
-        bottom: 0;
-        right: 20px;
-        margin-bottom: 110px; /* stays above console */
-        padding: 8px 16px;
-        background: #BF00FF;
-        border: none;
-        border-radius: 5px;
-        font-weight: bold;
-        cursor: pointer;
-        color: black;
-        z-index: 1000;
-    }
-    #toggle-console:hover {
-        background: #9900CC;
-    }
+#toggle-console { position:fixed; bottom:0; right:20px; margin-bottom:110px; padding:8px 16px; background:#BF00FF; border:none; border-radius:5px; font-weight:bold; cursor:pointer; color:black; z-index:1000; }
+#toggle-console:hover { background:#9900CC; }
 </style>
 </head>
 <body>
+
 <h1>Kyoshade-Math-For-Kids</h1>
 
 <div class="math-container">
-    <div class="math-card">
-        <a href="maths/slopeoffline.html" onclick="openGame(event, this)">Slope</a>
-    </div>
-    <div class="math-card">
-        <a href="maths/infinitecraft.html" onclick="openGame(event, this)">infinitecraft</a>
-    </div>
-     <div class="math-card">
-        <a href="maths/snow rider.html" onclick="openGame(event, this)">SnowRider</a>
-    </div>
-<div class="math-card">
-        <a href="maths/ScriptHub.html" onclick="openGame(event, this)">Script Hub</a>
-    </div>
-
+    <div class="math-card"><a href="maths/slopeoffline.html" onclick="openGame(event, this)">Slope</a></div>
+    <div class="math-card"><a href="maths/infinitecraft.html" onclick="openGame(event, this)">InfiniteCraft</a></div>
+    <div class="math-card"><a href="maths/snow rider.html" onclick="openGame(event, this)">SnowRider</a></div>
+    <div class="math-card"><a href="maths/ScriptHub.html" onclick="openGame(event, this)">Script Hub</a></div>
 </div>
 
-<!-- Game container -->
 <div id="game-container"></div>
 
-<!-- Console toggle button -->
 <button id="toggle-console" onclick="toggleConsole()">Toggle Console</button>
 
-<!-- Console wrapper -->
-<div id="console-wrapper" style="display:none;">
-    <div id="console">
-        <textarea id="console-input" placeholder="// Write your script here..."></textarea><br>
-        <button onclick="runScript()">Execute</button>
-        <button onclick="clearConsole()">Clear</button>
-        <button onclick="toggleHub()">Script Hub</button>
-        <iframe id="script-hub" src="script-hub.html"></iframe>
-    </div>
+<div id="console-wrapper">
+  <div id="console">
+    <textarea id="console-input"></textarea><br>
+    <button onclick="runScript()">Execute</button>
+    <button onclick="clearConsole()">Clear</button>
+  </div>
 </div>
 
 <script>
@@ -168,23 +54,34 @@ function openGame(event, link) {
     event.preventDefault();
     const container = document.getElementById('game-container');
     container.innerHTML = '';
+
     const iframe = document.createElement('iframe');
     iframe.src = link.href;
-    container.style.height = '800px';
+    iframe.id = "game-frame"; // Console hooks into this iframe
+    iframe.style.width = "100%";
+    iframe.style.height = "800px";
+    iframe.style.border = "none";
+    container.style.height = "800px";
     container.appendChild(iframe);
 }
 
 function runScript() {
-    const code = document.getElementById('console-input').value;
-    try {
-        const result = eval(code);
-        alert("Result: " + result);
-    } catch (e) {
-        alert("Error: " + e.message);
-    }
+  const code = document.getElementById('console-input').value;
+  const iframe = document.getElementById('game-frame');
+
+  if (!iframe) return alert("No game loaded!");
+
+  try {
+    const result = iframe.contentWindow.eval(code);
+    console.log(result);
+    alert("Result: " + result);
+  } catch (e) {
+    alert("Error: " + e.message);
+  }
 }
+
 function clearConsole() {
-    document.getElementById('console-input').value = '';
+  document.getElementById('console-input').value = '';
 }
 
 function toggleConsole() {
@@ -192,6 +89,6 @@ function toggleConsole() {
     consoleWrap.style.display = (consoleWrap.style.display === 'none' || consoleWrap.style.display === '') ? 'block' : 'none';
 }
 </script>
+
 </body>
 </html>
-
