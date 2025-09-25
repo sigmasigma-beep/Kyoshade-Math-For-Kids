@@ -38,7 +38,6 @@
         border: 2px solid #BF00FF;
         border-radius: 5px;
         text-decoration: none;
-        cursor: pointer;
     }
     .math-card a:hover {
         background: #BF00FF;
@@ -67,7 +66,6 @@
         bottom: 0;
         left: 0;
         width: 100%;
-        display: none;
     }
     #console {
         background: #000;
@@ -125,16 +123,16 @@
 
 <div class="math-container">
     <div class="math-card">
-        <a data-filename="slopeoffline.html" onclick="openGame(event, this)">Slope</a>
+        <a href="#" data-filename="slopeoffline.html" onclick="openGame(event, this)">Slope</a>
     </div>
     <div class="math-card">
-        <a data-filename="infinitecraft.html" onclick="openGame(event, this)">Infinitecraft</a>
+        <a href="#" data-filename="infinitecraft.html" onclick="openGame(event, this)">InfiniteCraft</a>
     </div>
     <div class="math-card">
-        <a data-filename="snow rider.html" onclick="openGame(event, this)">SnowRider</a>
+        <a href="#" data-filename="snow rider.html" onclick="openGame(event, this)">SnowRider</a>
     </div>
     <div class="math-card">
-        <a data-filename="ScriptHub.html" onclick="openGame(event, this)">Script Hub</a>
+        <a href="#" data-filename="ScriptHub.html" onclick="openGame(event, this)">Script Hub</a>
     </div>
 </div>
 
@@ -147,7 +145,7 @@
 <!-- Console wrapper -->
 <div id="console-wrapper">
   <div id="console">
-    <textarea id="console-input" placeholder="// Write your script here..."></textarea><br>
+    <textarea id="console-input"></textarea><br>
     <button onclick="runScript()">Execute</button>
     <button onclick="clearConsole()">Clear</button>
   </div>
@@ -167,31 +165,40 @@ function openGame(event, link) {
     iframe.style.height = "800px";
     iframe.style.border = "none";
     container.appendChild(iframe);
+    
+    // Resize container height
+    container.style.height = '800px';
 }
- {
-    const code = document.getElementById('console-input').value;
-    const iframe = document.getElementById('game-frame');
 
-    if (!iframe) return alert("No game loaded!");
+function runScript() {
+  const code = document.getElementById('console-input').value;
+  const iframe = document.getElementById('game-frame');
 
-    try {
-        // Same-origin safe: iframe and site are in the same repo
-        const result = iframe.contentWindow.eval(code);
-        console.log(result);
-        alert("Result: " + result);
-    } catch (e) {
-        alert("Error: " + e.message);
-    }
+  if (!iframe) return alert("No game loaded!");
+
+  try {
+    // Only works if iframe is same-origin
+    const result = iframe.contentWindow.eval(code);
+    console.log(result);
+    alert("Result: " + result);
+  } catch (e) {
+    alert("Error: " + e.message);
+  }
 }
 
 function clearConsole() {
-    document.getElementById('console-input').value = '';
+  document.getElementById('console-input').value = '';
 }
 
 function toggleConsole() {
     const consoleWrap = document.getElementById('console-wrapper');
     consoleWrap.style.display = (consoleWrap.style.display === 'none' || consoleWrap.style.display === '') ? 'block' : 'none';
 }
+
+// Initially hide console
+document.getElementById('console-wrapper').style.display = 'none';
 </script>
+
 </body>
 </html>
+
