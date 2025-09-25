@@ -172,20 +172,27 @@ function openGame(event, link) {
      container.style.overflow = 'visible';
 }
 
+<script>
 function runScript() {
   const code = document.getElementById('console-input').value;
   const iframe = document.getElementById('game-frame');
 
-  if (!iframe) return alert("No game loaded!");
+  if (!iframe) return console.warn("No game loaded!");
 
   try {
-    // Only works if iframe is same-origin
-    const result = iframe.contentWindow.eval(code);
-    console.log(result);
-    alert("Result: " + result);
+    // Execute code inside the iframe, no return, no alert
+    iframe.contentWindow.eval(code);
   } catch (e) {
-    alert("Error: " + e.message);
+    console.error("Error:", e.message);
   }
+}
+
+function clearConsole() {
+  document.getElementById('console-input').value = '';
+}
+</script>
+
+  
 }
 
 function clearConsole() {
