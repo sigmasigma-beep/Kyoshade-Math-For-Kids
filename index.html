@@ -1,213 +1,200 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Kyoshade-Math-For-Kids</title>
-<style>
-    body { 
-        font-family: Arial, sans-serif; 
-        text-align: center; 
-        background: black;
-        margin: 0;
-        padding: 0;
-    }
-    h1 { color: #BF00FF; margin-top: 20px; }
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Math Activities</title>
+  <style>
+    * { margin:0; padding:0; box-sizing:border-box; }
 
-    /* Game grid */
-    .math-container { 
-        display: grid; 
-        grid-template-columns: repeat(4, 1fr);
-        gap: 10px;
-        padding: 20px;
-        max-width: 100%;
-        margin: 0 auto;
+    body {
+      font-family: Arial, sans-serif;
+      text-align: center;
+      background: #0a0015;
+      color: #d0d0ff;
+      min-height: 100vh;
+      position: relative;
+      overflow-x: hidden;
     }
-    .math-card { 
-        background: black; 
-        padding: 20px;
-        border-radius: 10px; 
-        box-shadow: 0 0 10px #BF00FF;
+
+    /* Subtle background stars */
+    .stars {
+      position: fixed;
+      inset: 0;
+      pointer-events: none;
+      z-index: -2;
+      opacity: 0.4; /* lower opacity = less noticeable */
     }
-    .math-card a { 
-        display: block;
-        padding: 20px;
-        font-size: 18px;
-        font-weight: bold;
-        color: #BF00FF;
-        border: 2px solid #BF00FF;
-        border-radius: 5px;
-        text-decoration: none;
+
+    .stars-layer {
+      position: absolute;
+      inset: 0;
+      background: transparent;
+      background-image:
+        radial-gradient(white 1px, transparent 1px),
+        radial-gradient(rgba(200,180,255,0.4) 0.8px, transparent 1.2px);
+      background-size: 180px 180px, 220px 220px;
+      background-position: 0 0, 60px 90px;
+      animation: slow-drift 500s linear infinite;
     }
+
+    @keyframes slow-drift {
+      0%   { transform: translate(0, 0); }
+      100% { transform: translate(-60px, 1000px); }
+    }
+
+    /* Very subtle meteors – fewer and slower */
+    .shooting-stars {
+      position: fixed;
+      inset: 0;
+      pointer-events: none;
+      z-index: -1;
+      overflow: hidden;
+    }
+
+    .meteor {
+      position: absolute;
+      top: -200px;
+      width: 4px;
+      height: 80px;
+      background: linear-gradient(to top, #e0e0ff, #c0b0ff 30%, transparent 100%);
+      border-radius: 50% 50% 0 0;
+      opacity: 0;
+      animation: meteor-vertical linear infinite;
+    }
+
+    .meteor:nth-child(1) { left: 20%; animation-duration: 18s; animation-delay: 5s; }
+    .meteor:nth-child(2) { left: 50%; animation-duration: 22s; animation-delay: 12s; }
+    .meteor:nth-child(3) { left: 80%; animation-duration: 20s; animation-delay: 20s; }
+
+    @keyframes meteor-vertical {
+      0%   { transform: translate(0, 0); opacity: 0; }
+      5%   { opacity: 0.7; }
+      100% { transform: translate(0, 1800px); opacity: 0; }
+    }
+
+    h1 {
+      color: #a080c0;
+      margin: 40px 0 30px;
+      font-size: 2.4rem;
+      font-weight: normal;
+      text-shadow: 0 1px 4px rgba(0,0,0,0.4);
+    }
+
+    .math-container {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr); /* 4 in one row */
+      gap: 20px;
+      padding: 0 30px;
+      max-width: 1200px;
+      margin: 0 auto 40px;
+    }
+
+    .math-card {
+      background: rgba(20, 10, 40, 0.75);
+      padding: 20px 15px; /* shorter height */
+      border-radius: 6px;
+      border: 1px solid rgba(140, 80, 200, 0.15);
+      box-shadow: 0 2px 8px rgba(0,0,0,0.4);
+      transition: transform 0.2s ease;
+    }
+
+    .math-card:hover {
+      transform: translateY(-4px);
+    }
+
+    .math-card a {
+      display: block;
+      font-size: 1.2rem; /* smaller text */
+      font-weight: normal;
+      color: #b080d0;
+      text-decoration: none;
+    }
+
     .math-card a:hover {
-        background: #BF00FF;
-        color: black;
+      color: #e0d0ff;
     }
 
-    /* Game container */
     #game-container {
-        margin: 20px auto;
-        width: 90%;
-        max-width: 1200px;
-        height: 0;
-        overflow: hidden;
-        transition: height 0.5s ease;
+      margin: 0 auto 40px;
+      width: 90%;
+      max-width: 1000px;
+      height: 0;
+      overflow: hidden;
+      transition: height 0.4s ease;
+      border-radius: 6px;
     }
+
     #game-container iframe {
-        width: 100%;
-        height: 100%;
-        border: none;
-        border-radius: 10px;
+      width: 100%;
+      height: 700px; /* slightly shorter iframe */
+      border: none;
+      background: #0e001e;
     }
-
-    /* Console panel */
-    #console-wrapper {
-        position: fixed;
-        bottom: 0;
-        left: 0;
-        width: 100%;
-    }
-    #console {
-        background: #000;
-        border-top: 2px solid #BF00FF;
-        padding: 10px;
-        box-sizing: border-box;
-    }
-    #console textarea {
-        width: 100%;
-        height: 100px;
-        background: #111;
-        color: #0ff;
-        font-family: monospace;
-        border: 2px solid #BF00FF;
-        border-radius: 5px;
-        padding: 8px;
-        resize: none;
-    }
-    #console button {
-        margin-top: 8px;
-        padding: 8px 16px;
-        background: #BF00FF;
-        border: none;
-        border-radius: 5px;
-        font-weight: bold;
-        cursor: pointer;
-        color: black;
-    }
-    #console button:hover {
-        background: #9900CC;
-    }
-
-    /* Toggle button */
-    #toggle-console {
-        position: fixed;
-        bottom: 0;
-        right: 20px;
-        margin-bottom: 110px; /* stays above console */
-        padding: 8px 16px;
-        background: #BF00FF;
-        border: none;
-        border-radius: 5px;
-        font-weight: bold;
-        cursor: pointer;
-        color: black;
-        z-index: 1000;
-    }
-    #toggle-console:hover {
-        background: #9900CC;
-    }
-</style>
+  </style>
 </head>
 <body>
-<h1>Kyoshade-Math-For-Kids</h1>
 
-<div class="math-container">
-    <div class="math-card">
-        <a href="#" data-filename="slopeoffline.html" onclick="openGame(event, this)">Slope</a>
-    </div>
-    <div class="math-card">
-        <a href="#" data-filename="infinitecraft.html" onclick="openGame(event, this)">InfiniteCraft</a>
-    </div>
-    <div class="math-card">
-        <a href="#" data-filename="snow rider.html" onclick="openGame(event, this)">SnowRider</a>
-    </div>
-    <div class="math-card">
-        <a href="#" data-filename="ScriptHub.html" onclick="openGame(event, this)">Script Hub</a>
-    </div>
-</div>
-
-<!-- Game container -->
-<div id="game-container"></div>
-
-<!-- Console toggle button -->
-<button id="toggle-console" onclick="toggleConsole()">Toggle Console</button>
-
-<!-- Console wrapper -->
-<div id="console-wrapper">
-  <div id="console">
-    <textarea id="console-input"></textarea><br>
-    <button onclick="runScript()">Execute</button>
-    <button onclick="clearConsole()">Clear</button>
+  <div class="stars">
+    <div class="stars-layer"></div>
+    <div class="stars-layer"></div>
   </div>
-</div>
 
-<script>
-function openGame(event, link) {
-    event.preventDefault();
-    const filename = link.getAttribute('data-filename').replace(/ /g, '%20');
-    const container = document.getElementById('game-container');
-    container.innerHTML = '';
+  <div class="shooting-stars">
+    <div class="meteor"></div>
+    <div class="meteor"></div>
+    <div class="meteor"></div>
+  </div>
 
-    const iframe = document.createElement('iframe');
-    iframe.src = `maths/${filename}`;
-    iframe.id = "game-frame";
-    iframe.style.width = "100%";
-    iframe.style.height = "800px";
-    iframe.style.border = "none";
-    iframe.style.display = "block";
-    container.appendChild(iframe);
-    
-    // Resize container height
-    container.style.height = '800px';
-     container.style.overflow = 'visible';
-}
+  <h1>Math Activities</h1>
 
-<script>
-function runScript() {
-  const code = document.getElementById('console-input').value;
-  const iframe = document.getElementById('game-frame');
+  <div class="math-container">
+    <div class="math-card">
+      <a href="#" data-filename="slopeoffline.html" onclick="openInBlank(event, this)">Activity 1</a>
+    </div>
+    <div class="math-card">
+      <a href="#" data-filename="infinitecraft.html" onclick="openInBlank(event, this)">Activity 2</a>
+    </div>
+    <div class="math-card">
+      <a href="#" data-filename="snow rider.html" onclick="openInBlank(event, this)">Activity 3</a>
+    </div>
+    <div class="math-card">
+      <a href="#" data-filename="ScriptHub.html" onclick="openInBlank(event, this)">Activity 4</a>
+    </div>
+  </div>
 
-  if (!iframe) return console.warn("No game loaded!");
+  <div id="game-container"></div>
 
-  try {
-    // Execute code inside the iframe, no return, no alert
-    iframe.contentWindow.eval(code);
-  } catch (e) {
-    console.error("Error:", e.message);
-  }
-}
+  <script>
+    function openInBlank(event, link) {
+      event.preventDefault();
+      const filename = link.getAttribute('data-filename').replace(/ /g, '%20');
+      const gameUrl = `maths/${filename}`;
 
-function clearConsole() {
-  document.getElementById('console-input').value = '';
-}
-</script>
+      const blankWin = window.open('about:blank', '_blank');
 
-  
-}
-
-function clearConsole() {
-  document.getElementById('console-input').value = '';
-}
-
-function toggleConsole() {
-    const consoleWrap = document.getElementById('console-wrapper');
-    consoleWrap.style.display = (consoleWrap.style.display === 'none' || consoleWrap.style.display === '') ? 'block' : 'none';
-}
-
-// Initially hide console
-document.getElementById('console-wrapper').style.display = 'none';
-</script>
+      if (blankWin) {
+        blankWin.document.write(`
+          <!DOCTYPE html>
+          <html lang="en">
+          <head>
+            <meta charset="UTF-8">
+            <meta name="viewport" content="width=device-width, initial-scale=1.0">
+            <title>Loading...</title>
+            <style>
+              body { margin:0; height:100vh; background:#0a0015; display:flex; align-items:center; justify-content:center; }
+              iframe { width:95%; height:90vh; border:none; }
+            </style>
+          </head>
+          <body>
+            <iframe src="${gameUrl}" onload="document.title='Activity';"></iframe>
+          </body>
+          </html>
+        `);
+        blankWin.document.close();
+      }
+    }
+  </script>
 
 </body>
 </html>
-
